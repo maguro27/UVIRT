@@ -1,0 +1,3 @@
+[submodule "gdwct"]
+	path = gdwct
+	url = https://github.com/WonwoongCho/GDWCT.git
