@@ -33,18 +33,32 @@ def main():
         default=0,
         help="start iteration number. please set it when you turn on the 'load_model' argument.",
     )
+    parser.add_argument(
+        "--save_name",
+        type=str,
+        default="mpv_results_mpv_192_256",
+        help="a name of saved weight.",
+    )
+    parser.add_argument(
+        "--model_save_path",
+        type=str,
+        default="models/mpv/",
+        help="a name of saved weight.",
+    )
     opts = parser.parse_args()
 
     config = ges_Aonfig(opts.config)
     config["MODE"] = opts.mode
     config["LOAD_MODEL"] = opts.load_model
     config["START"] = opts.start_iteration
+    config["SAVE_NAME"] = opts.save_name
+    config["MODEL_SAVE_PATH"] = opts.model_save_path
 
     # For fast training
     cudnn.benchmark = True
 
     run = Run(config)
-    # Overwrite a class variable
+    # Overwrite a instance variable
     run.data_loader = get_loader(
         config["DATA_PATH"],
         crop_size=config["CROP_SIZE"],
@@ -55,6 +69,7 @@ def main():
         num_workers=config["NUM_WORKERS"],
     )
 
+    assert config["MODE"] in ["train", "test"]
     if config["MODE"] == "train":
         run.train()
     else:
