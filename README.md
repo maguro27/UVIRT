@@ -6,7 +6,7 @@ This repository contains the official PyTorch implementation of the following pa
 
 ## Explanation of this prepository
 - `gdwct`: Git submodule. We use [the official PyTorch implementation of the GDWCT paper](https://github.com/WonwoongCho/GDWCT).
-- `gitmodules`: For git submodule.
+- `.gitmodules`: For git submodule.
 - `data_loader_mpv.py`: Dataloader file for overwriting the gdwct dataloader.
 - `googleDrive_download_folder.py`: Script using PyDrive for downloading the preprocessed MPV dataset.
 - `mpv.yaml`: Config file for training UVIRT on the MPV dataset.
@@ -79,4 +79,4 @@ DOI = {10.3390/s20195647}
 ```
 
 ## Acknowledgements
-This repository use the official implementation of the paper "Image-to-Image Translation via Group-wise Deep Whitening-and-Coloring Transformation". This repository structure is inspired by [SPACE](https://github.com/zhixuan-lin/SPACE). We thank these repositor for help with the code release.
+This repository use the official implementation of the paper "Image-to-Image Translation via Group-wise Deep Whitening-and-Coloring Transformation". This repository structure is inspired by [SPACE](https://github.com/zhixuan-lin/SPACE). We thank these repositories for help with the code release.
