@@ -1,10 +1,13 @@
+import os
 import argparse
+from tqdm import tqdm
 
+import torch
 from torch.backends import cudnn
 
 from gdwct.run import Run
 from data_loader_mpv import get_loader
-from gdwct.utils.util import ges_Aonfig
+from gdwct.utils.util import save_img, ges_Aonfig
 
 
 def main():
@@ -45,6 +48,11 @@ def main():
         default="models/mpv/",
         help="a name of saved weight.",
     )
+    parser.add_argument(
+        "--fid",
+        action="store_true",
+        help="When you generate random sample for computing FID, turn on.",
+    )
     opts = parser.parse_args()
 
     config = ges_Aonfig(opts.config)
@@ -73,7 +81,60 @@ def main():
     if config["MODE"] == "train":
         run.train()
     else:
-        run.test()
+        run.test(config, opts, run)
+
+
+def test(config, opts, run):
+    print("test start")
+    run.test_ready()
+
+    repeat_num = 10 if opts.fid else 1  # random test 10 times for FID
+    with torch.no_grad():
+        for s in range(repeat_num):
+            if opts.fid:
+                data_list = opts.mode + "_pairs_fid_" + str(s) + ".txt"
+            else:
+                data_list = None
+
+            data_loader_test = get_loader(
+                config["DATA_PATH"],
+                crop_size=config["CROP_SIZE"],
+                resize=config["RESIZE"],
+                batch_size=config["BATCH_SIZE"],
+                dataset=config["DATASET"],
+                mode="test",
+                num_workers=config["NUM_WORKERS"],
+                data_list=data_list,
+            )
+
+            device = torch.device(
+                "cuda:%d" % (int(config["GPU1"]))
+                if torch.cuda.is_available()
+                else "cpu"
+            )
+            for i, (x_A, x_B, im_name) in enumerate(tqdm(data_loader_test)):
+                x_A = x_A.to(device)
+                x_B = x_B.to(device)
+
+                x_AB, x_BA, x_ABA, x_BAB = run.update_G(x_A, x_B, isTrain=False)
+
+                if opts.fid:
+                    save_img(
+                        [x_BA],
+                        self.config["SAVE_NAME"],
+                        os.path.splitext(os.path.basename(im_name[0]))[0],
+                        "test_results/" + opts.notice + "/fid_" + str(s),
+                        opts.config,
+                    )
+                else:
+                    if config["SAVE_IMG"]:
+                        save_img(
+                            [x_BA],
+                            config["SAVE_NAME"],
+                            os.path.splitext(os.path.basename(im_name[0]))[0],
+                            "test_results",
+                            opts.config,
+                        )
 
 
 if __name__ == "__main__":
