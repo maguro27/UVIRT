@@ -83,6 +83,7 @@ python make_pair_text.py
 python run_uvirt.py -m test -l -s 490000 -model_save_path models/mpv/uvirt_pretrained_models -f
 ```
 3. Evaluate the FID.
+```
 python fid_score_iterable.py ./datasets/MPV_supervised/image ./test_results -c 0 -r mpv_192_256
 ```
 
