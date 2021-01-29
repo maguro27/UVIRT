@@ -5,12 +5,16 @@ This repository contains the official PyTorch implementation of the following pa
 >Sensors 2020
 
 ## Explanation of this prepository
+- `datasets`: Dataset directory. It includes the train and test pair text files.
+- `fid`: For computing FID. The modified version scripts of [pytorch-fid](https://github.com/mseitzer/pytorch-fid)
 - `gdwct`: Git submodule. We use [the official PyTorch implementation of the GDWCT paper](https://github.com/WonwoongCho/GDWCT).
 - `.gitmodules`: For git submodule.
 - `data_loader_mpv.py`: Dataloader file for overwriting the gdwct dataloader.
 - `googleDrive_download_folder.py`: Script using PyDrive for downloading the preprocessed MPV dataset.
+- `make_pair_text.py`: The script of making a unpair text of the train and test datasets for computing FID.
 - `mpv.yaml`: Config file for training UVIRT on the MPV dataset.
 - `run_uvirt.py`: Main running script.
+- `requirements.txt`: For installing each modules.
 
 ## Dependencies
 This repository environment is as follow. We did not check the environment except for the following envirionment.
@@ -31,13 +35,20 @@ The above script is destructive. For instance, you already install the numpy 1.1
 ## Dataset
 You can select the two types of downloading the preprocessed MPV dataset.
 1. Manually download the dataset from GoogleDrive: [The preprocessed MPV dataset](https://drive.google.com/drive/folders/1oIpKLhc5Bwaz9IDobSGdk0UQRAuXZ-Wr?usp=sharing) <br>
-You make the `datasets` directory and add the dataset into the `datasets` directory, after you complete downloading the dataset.
+You make the `datasets` directory and add the dataset into the `datasets` directory, after you complete downloading the dataset. Afterthat,
+```
+cd UVIRT/datasets/mpv_preprocessed
+mv ./* ../MPV_supervised
+cd ..
+rm -r mpv_preprocessed
+```
 2. Use `googleDrive_download_folder.py`.
 ```
 cd UVIRT
 python googleDrive_download_folder.py -p 1oIpKLhc5Bwaz9IDobSGdk0UQRAuXZ-Wr -s ./datasets
 cd datasets/mpv_preprocessed
-mv ./* ../
+mv ./* ../MPV_supervised
+cd ..
 rm -r mpv_preprocessed
 ```
 
@@ -53,12 +64,26 @@ python googleDrive_download_folder.py -p 1IZBOZX-vUxy3cI-SGmJ3mRgFHzI3DpKg -s ./
 ```
 2. Run the script.
 ```
-run_uvirt.py -m test -l -s 490000 -model_save_path models/mpv/uvirt_pretrained_models
+python run_uvirt.py -m test -l -s 490000 -model_save_path models/mpv/uvirt_pretrained_models
 ```
 
 ## Training
 ```
-run_uvirt.py 
+python run_uvirt.py
+```
+
+## Evaluation
+You can evaluate the FID of our model trained on the MPV dataset in the three steps.
+1. Make random pairs of the test dataset.
+```
+python make_pair_text.py
+```
+2. Generate try-on images.
+```
+python run_uvirt.py -m test -l -s 490000 -model_save_path models/mpv/uvirt_pretrained_models -f
+```
+3. Evaluate the FID.
+python fid_score_iterable.py ./datasets/MPV_supervised/image ./test_results -c 0 -r mpv_192_256
 ```
 
 ## Citation

@@ -50,6 +50,7 @@ def main():
     )
     parser.add_argument(
         "--fid",
+        "-f",
         action="store_true",
         help="When you generate random sample for computing FID, turn on.",
     )
@@ -123,7 +124,7 @@ def test(config, opts, run):
                         [x_BA],
                         self.config["SAVE_NAME"],
                         os.path.splitext(os.path.basename(im_name[0]))[0],
-                        "test_results/" + opts.notice + "/fid_" + str(s),
+                        "test_results/fid_" + str(s),
                         opts.config,
                     )
                 else:
