@@ -17,7 +17,7 @@ This repository contains the official PyTorch implementation of the following pa
 - `requirements.txt`: For installing each modules.
 
 ## Dependencies
-This repository environment is as follow. We did not check the environment except for the following envirionment.
+This repository environment is as follow. We did not check other environments.
 - `Python`: 3.6
 - `PyTorch`: 1.6.0
 - `Torchvision`: 0.7.0
