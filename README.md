@@ -4,6 +4,12 @@ This repository contains the official PyTorch implementation of the following pa
 >Hideki Tsunashima (Waseda Univ.), Kosuke Arase (Mercari, Inc.), Antony Lam (Mercari, Inc.), Hirokatsu Kataoka (AIST) <br>
 >Sensors 2020
 
+## First doing
+Please use the `recursive` option so that cloning the git submodule when you clone this repository.
+```
+git clone --recursive https://github.com/maguro27/UVIRT.git
+```
+
 ## Explanation of this prepository
 - `datasets`: Dataset directory. It includes the train and test pair text files.
 - `fid`: For computing FID. The modified version scripts of [pytorch-fid](https://github.com/mseitzer/pytorch-fid)
