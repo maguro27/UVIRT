@@ -12,13 +12,13 @@ if dataset == "mpv":
     cloth_side_paths = glob.glob("./datasets/MPV_supervised/{}/cloth/*".format(target))
     for s in range(repeat):
         if random_bool:
-            text_path = "./datasets/MPV_supervised_96_128/{0}_pairs_fid_{1}.txt".format(
+            text_path = "./datasets/MPV_supervised/{0}_pairs_fid_{1}.txt".format(
                 target, s
             )
             random.shuffle(img_side_paths)
             random.shuffle(cloth_side_paths)
         else:
-            text_path = "./datasets/MPV_supervised_96_128/{}_pairs.txt".format(target)
+            text_path = "./datasets/MPV_supervised/{}_pairs.txt".format(target)
             img_side_paths.sort()
             cloth_side_paths.sort()
 

@@ -7,7 +7,8 @@ from torch.backends import cudnn
 
 from gdwct.run import Run
 from data_loader_mpv import get_loader
-from gdwct.utils.util import save_img, ges_Aonfig
+from gdwct.utils.util import ges_Aonfig
+from save_img_mpv import save_img
 
 
 def main():
@@ -54,6 +55,7 @@ def main():
         action="store_true",
         help="When you generate random sample for computing FID, turn on.",
     )
+    parser.add_argument("--batchsize", "-b", type=int, default=8, help="batchsize")
     opts = parser.parse_args()
 
     config = ges_Aonfig(opts.config)
@@ -62,6 +64,7 @@ def main():
     config["START"] = opts.start_iteration
     config["SAVE_NAME"] = opts.save_name
     config["MODEL_SAVE_PATH"] = opts.model_save_path
+    config["BATCH_SIZE"] = opts.batchsize
 
     # For fast training
     cudnn.benchmark = True
@@ -82,12 +85,13 @@ def main():
     if config["MODE"] == "train":
         run.train()
     else:
-        run.test(config, opts, run)
+        run.G_A.train()
+        run.G_B.train()
+        test(config, opts, run)
 
 
 def test(config, opts, run):
     print("test start")
-    run.test_ready()
 
     repeat_num = 10 if opts.fid else 1  # random test 10 times for FID
     with torch.no_grad():
@@ -117,25 +121,24 @@ def test(config, opts, run):
                 x_A = x_A.to(device)
                 x_B = x_B.to(device)
 
-                x_AB, x_BA, x_ABA, x_BAB = run.update_G(x_A, x_B, isTrain=False)
+                x_AB, x_BA = run.update_G(x_A, x_B, isTrain=False)
 
                 if opts.fid:
                     save_img(
                         [x_BA],
-                        self.config["SAVE_NAME"],
+                        config["SAVE_NAME"],
                         os.path.splitext(os.path.basename(im_name[0]))[0],
                         "test_results/fid_" + str(s),
                         opts.config,
                     )
                 else:
-                    if config["SAVE_IMG"]:
-                        save_img(
-                            [x_BA],
-                            config["SAVE_NAME"],
-                            os.path.splitext(os.path.basename(im_name[0]))[0],
-                            "test_results",
-                            opts.config,
-                        )
+                    save_img(
+                        [x_BA],
+                        config["SAVE_NAME"],
+                        os.path.splitext(os.path.basename(im_name[0]))[0],
+                        "test_results",
+                        opts.config,
+                    )
 
 
 if __name__ == "__main__":

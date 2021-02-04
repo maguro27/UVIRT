@@ -1,14 +1,25 @@
 # UVIRT
 This repository contains the official PyTorch implementation of the following paper:
 >[UVIRT—Unsupervised Virtual Try-on Using Disentangled Clothing and Person Features](https://www.mdpi.com/1424-8220/20/19/5647) <br>
->Hideki Tsunashima (Waseda Univ.), Kosuke Arase (Mercari, Inc.), Antony Lam (Mercari, Inc.), Hirokatsu Kataoka (AIST) <br>
+>Hideki Tsunashima (AIST), Kosuke Arase (Mercari, Inc.), Antony Lam (Mercari, Inc.), Hirokatsu Kataoka (AIST) <br>
 >Sensors 2020
 
 ## First doing
-Please use the `recursive` option so that cloning the git submodule when you clone this repository.
+1. Please use the `recursive` option so that cloning the git submodule when you clone this repository.
 ```
 git clone --recursive https://github.com/maguro27/UVIRT.git
 ```
+2. Change the line 360 and 362 of `gdwct/run.py`.
+```
+config = ges_Aonfig('configs/mpv.yaml')
+
+# main()
+```
+3. Change the line 17 of `gdwct/run.py`.
+```
+self.data_loader = 0
+```
+
 
 ## Explanation of this prepository
 - `datasets`: Dataset directory. It includes the train and test pair text files.
@@ -48,14 +59,17 @@ mv ./* ../MPV_supervised
 cd ..
 rm -r mpv_preprocessed
 ```
-2. Use `googleDrive_download_folder.py`.
+2. Use `googleDrive_download_folder.py`. This script can skip a confirmation page in GoogleDrive when downloading.
+If you want to use the above script, please set up PyDrive.
+See [https://pythonhosted.org/PyDrive/](PyDrive document).
 ```
 cd UVIRT
 python googleDrive_download_folder.py -p 1oIpKLhc5Bwaz9IDobSGdk0UQRAuXZ-Wr -s ./datasets
-cd datasets/mpv_preprocessed
-mv ./* ../MPV_supervised
-cd ..
-rm -r mpv_preprocessed
+cd datasets
+unzip MPV_distributed.zip
+mv MPV_distributed/* MPV_supervised
+rm -r MPV_distributed
+rm -r MPV_distributed.zip
 ```
 
 ## Test visualiation with pre-trained models on the MPV dataset
@@ -70,7 +84,7 @@ python googleDrive_download_folder.py -p 1IZBOZX-vUxy3cI-SGmJ3mRgFHzI3DpKg -s ./
 ```
 2. Run the script.
 ```
-python run_uvirt.py -m test -l -s 490000 -model_save_path models/mpv/uvirt_pretrained_models
+python run_uvirt.py -m test -l -s 490000 --model_save_path gdwct/models
 ```
 
 ## Training
@@ -86,11 +100,11 @@ python make_pair_text.py
 ```
 2. Generate try-on images.
 ```
-python run_uvirt.py -m test -l -s 490000 -model_save_path models/mpv/uvirt_pretrained_models -f
+python run_uvirt.py -m test -l -s 490000 --model_save_path gdwct/models -f -b 1
 ```
 3. Evaluate the FID.
 ```
-python fid_score_iterable.py ./datasets/MPV_supervised/image ./test_results -c 0 -r mpv_192_256
+python ./fid/fid_score_iterable.py ./datasets/MPV_supervised/test/image ./test_results -c 0 -r mpv_results_mpv_192_256
 ```
 
 ## Citation
