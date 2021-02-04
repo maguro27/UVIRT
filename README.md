@@ -27,16 +27,18 @@ mv __init__.py gdwct
 
 
 ## Explanation of this prepository
+- `configs`: Including the config file.
 - `datasets`: Dataset directory. It includes the train and test pair text files.
 - `fid`: For computing FID. The modified version scripts of [pytorch-fid](https://github.com/mseitzer/pytorch-fid)
 - `gdwct`: Git submodule. We use [the official PyTorch implementation of the GDWCT paper](https://github.com/WonwoongCho/GDWCT).
 - `.gitmodules`: For git submodule.
+- `__init__.py`: For initializing the gdwct directory.
 - `data_loader_mpv.py`: Dataloader file for overwriting the gdwct dataloader.
 - `googleDrive_download_folder.py`: Script using PyDrive for downloading the preprocessed MPV dataset.
 - `make_pair_text.py`: The script of making a unpair text of the train and test datasets for computing FID.
-- `mpv.yaml`: Config file for training UVIRT on the MPV dataset.
-- `run_uvirt.py`: Main running script.
 - `requirements.txt`: For installing each modules.
+- `run_uvirt.py`: Main running script.
+- `save_img_mpv.py`: Saving function for run_uvirt.py.
 
 ## Dependencies
 This repository environment is as follow. We did not check other environments.
@@ -67,7 +69,7 @@ rm -r MPV_distributed.zip
 ```
 2. Use `googleDrive_download_folder.py`. This script can skip a confirmation page in GoogleDrive when downloading.
 If you want to use the above script, please set up PyDrive.
-See [https://pythonhosted.org/PyDrive/](PyDrive document).
+See [PyDrive document](https://pythonhosted.org/PyDrive/).
 ```
 cd UVIRT
 python googleDrive_download_folder.py -p 1oIpKLhc5Bwaz9IDobSGdk0UQRAuXZ-Wr -s ./datasets
