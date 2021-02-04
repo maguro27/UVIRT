@@ -68,7 +68,7 @@ rm -r MPV_distributed
 rm -r MPV_distributed.zip
 ```
 2. Use `googleDrive_download_folder.py`. This script can skip a confirmation page in GoogleDrive when downloading.
-If you want to use the above script, please set up PyDrive.
+If you want to use the below script, please set up PyDrive.
 See [PyDrive document](https://pythonhosted.org/PyDrive/).
 ```
 cd UVIRT
