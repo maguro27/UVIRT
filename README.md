@@ -19,6 +19,11 @@ config = ges_Aonfig('configs/mpv.yaml')
 ```
 self.data_loader = 0
 ```
+4. Move `__init__.py` to `gdwct`.
+```
+cd UVIRT
+mv __init__.py gdwct
+```
 
 
 ## Explanation of this prepository
@@ -40,7 +45,7 @@ This repository environment is as follow. We did not check other environments.
 - `Torchvision`: 0.7.0
 - `cuda toolkit`: 10.2.89
 - `cuDNN`: 8.0.2
-- `GPU`: NVIDIA Tesla V100
+- `GPU`: NVIDIA Tesla V100 (16GB VRAM)
 
 Other requirements are in `requirements.txt` and can be installed with
 ```
@@ -52,12 +57,13 @@ The above script is destructive. For instance, you already install the numpy 1.1
 ## Dataset
 You can select the two types of downloading the preprocessed MPV dataset.
 1. Manually download the dataset from GoogleDrive: [The preprocessed MPV dataset](https://drive.google.com/drive/folders/1oIpKLhc5Bwaz9IDobSGdk0UQRAuXZ-Wr?usp=sharing) <br>
-You make the `datasets` directory and add the dataset into the `datasets` directory, after you complete downloading the dataset. Afterthat,
+Please add the dataset into the `datasets` directory, after you complete downloading the dataset. Afterthat,
 ```
-cd UVIRT/datasets/mpv_preprocessed
-mv ./* ../MPV_supervised
-cd ..
-rm -r mpv_preprocessed
+cd UVIRT/datasets
+unzip MPV_distributed.zip
+mv MPV_distributed/* MPV_supervised
+rm -r MPV_distributed
+rm -r MPV_distributed.zip
 ```
 2. Use `googleDrive_download_folder.py`. This script can skip a confirmation page in GoogleDrive when downloading.
 If you want to use the above script, please set up PyDrive.
@@ -76,7 +82,15 @@ rm -r MPV_distributed.zip
 You can visualize virtual try-on results on the test set in the two steps.
 1. Download the pre-trained models as well as downloading the dataset.
 - Manually download the pre-trained models from GoogleDrive: [The pre-trained models](https://drive.google.com/drive/folders/1IZBOZX-vUxy3cI-SGmJ3mRgFHzI3DpKg?usp=sharing) <br>
-You make the `./gdwct/models` directory and add the dataset into the `./gdwct/models` directory, after you complete downloading the pre-trained models. <br>
+Please make the `./gdwct/models` directory and add the dataset into the `./gdwct/models` directory, after you complete downloading the pre-trained models. Afterthat,
+```
+unzip ${downloaded_zip_file_name}
+cd uvirt_pretrained_models
+mv ./* ../
+cd ..
+rm -r uvirt_pretrained_models
+rm -r ${downloaded_zip_file_name}
+```
 - Use `googleDrive_download_folder.py`.
 ```
 cd UVIRT

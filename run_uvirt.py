@@ -55,7 +55,7 @@ def main():
         action="store_true",
         help="When you generate random sample for computing FID, turn on.",
     )
-    parser.add_argument("--batchsize", "-b", type=int, default=8, help="batchsize")
+    parser.add_argument("--batchsize", "-b", type=int, default=4, help="batchsize")
     opts = parser.parse_args()
 
     config = ges_Aonfig(opts.config)
