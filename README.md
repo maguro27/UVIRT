@@ -53,8 +53,6 @@ Other requirements are in `requirements.txt` and can be installed with
 ```
 pip install -r requirements.txt
 ```
-***!!! Attention !!!*** <br>
-The above script is destructive. For instance, you already install the numpy 1.19.5 and the requirements.txt describe `numpy==1.16.4`. The numpy is downgraded from 1.19.5 to 1.16.4. Therefore, please manually install the each modules if you want to avoid the destruction.
 
 ## Dataset
 You can select the two types of downloading the preprocessed MPV dataset.
