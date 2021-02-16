@@ -40,6 +40,7 @@ git clone --recursive https://github.com/maguro27/UVIRT.git
 -main()
 \ No newline at end of file
 +# main()
+```
 
 3. Move `__init__.py` to `gdwct`.
 ```
