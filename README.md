@@ -11,12 +11,20 @@ git clone --recursive https://github.com/maguro27/UVIRT.git
 ```
 2. Change the line 360 and 362 of `gdwct/run.py`.
 ```
-config = ges_Aonfig('configs/mpv.yaml')
+--- a/run.py
++++ b/run.py
+@@ -359,4 +359,4 @@ def main():
 
-# main()
+ config = ges_Aonfig('configs/config.yaml')
+
+-main()
+\ No newline at end of file
++# main()
 ```
 3. Change the line 17 of `gdwct/run.py`.
 ```
+--- a/run.py
++++ b/run.py
 self.data_loader = 0
 ```
 4. Move `__init__.py` to `gdwct`.
