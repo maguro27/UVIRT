@@ -2,12 +2,12 @@ import os
 import glob
 import random
 
-dataset = "mpv"
-target = "test"
-random_bool = True
-repeat = 10
 
-if dataset == "mpv":
+def main():
+    target = "test"
+    random_bool = True
+    repeat = 10
+
     img_side_paths = glob.glob("./datasets/MPV_supervised/{}/image/*".format(target))
     cloth_side_paths = glob.glob("./datasets/MPV_supervised/{}/cloth/*".format(target))
     for s in range(repeat):
@@ -30,3 +30,7 @@ if dataset == "mpv":
                     + os.path.basename(cloth_side_paths[i])
                     + "\n"
                 )
+
+
+if __name__ == "__main__":
+    main()

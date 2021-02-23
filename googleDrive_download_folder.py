@@ -4,12 +4,7 @@ from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 
 
-gauth = GoogleAuth()
-gauth.CommandLineAuth()
-drive = GoogleDrive(gauth)
-
-
-def download_file_recursively(parent_id, dst_dir):
+def download_file_recursively(parent_id, dst_dir, drive):
     os.makedirs(dst_dir, exist_ok=True)
 
     file_list = drive.ListFile(
@@ -25,14 +20,23 @@ def download_file_recursively(parent_id, dst_dir):
             print("Download {} to {}".format(f["title"], dst_path))
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument(
-    "--parent_id",
-    "-p",
-    type=str,
-    help="Download folder id, e.g. in https://drive.google.com/drive/folders/hogehoge, id is hogehoge.",
-)
-parser.add_argument("--save_dir", "-s", type=str, help="Save directory")
-args = parser.parse_args()
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--parent_id",
+        "-p",
+        type=str,
+        help="Download folder id, e.g. in https://drive.google.com/drive/folders/hogehoge, id is hogehoge.",
+    )
+    parser.add_argument("--save_dir", "-s", type=str, help="Save directory")
+    args = parser.parse_args()
 
-download_file_recursively(args.parent_id, args.save_dir)
+    gauth = GoogleAuth()
+    gauth.CommandLineAuth()
+    drive = GoogleDrive(gauth)
+
+    download_file_recursively(args.parent_id, args.save_dir, drive)
+
+
+if __name__ == "__main__":
+    main()

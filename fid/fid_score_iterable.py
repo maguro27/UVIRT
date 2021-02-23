@@ -53,38 +53,6 @@ except ImportError:
 
 from inception import InceptionV3
 
-parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
-parser.add_argument(
-    "path",
-    type=str,
-    nargs=2,
-    help=("Path to the generated images or " "to .npz statistic files"),
-)
-parser.add_argument("--batch-size", type=int, default=50, help="Batch size to use")
-parser.add_argument(
-    "--dims",
-    type=int,
-    default=2048,
-    choices=list(InceptionV3.BLOCK_INDEX_BY_DIM),
-    help=(
-        "Dimensionality of Inception features to use. "
-        "By default, uses pool3 features"
-    ),
-)
-parser.add_argument(
-    "-c", "--gpu", default="", type=str, help="GPU to use (leave blank for CPU only)"
-)
-parser.add_argument(
-    "-i", "--iter", default=10, type=int, help="How many iteration of computing FID"
-)
-parser.add_argument(
-    "-r",
-    "--result_name",
-    default="",
-    type=str,
-    help="Result name, e.g. human2clothes_results_cross-dataset_eval",
-)
-
 
 def imread(filename):
     """
@@ -129,7 +97,7 @@ def get_activations(files, model, batch_size=50, dims=2048, cuda=False, verbose=
     for i in range(0, len(files), batch_size):
         print("now_iteration:{}".format(i))
         if verbose:
-            print("\rPropagating batch %d/%d" % (i + 1, n_batches), end="", flush=True)
+            print("\rPropagating batch %d/%d" % (i + 1, batch_size), end="", flush=True)
         start = i
         end = i + batch_size
 
@@ -276,6 +244,41 @@ def calculate_fid_given_paths(paths, batch_size, cuda, dims):
 
 
 if __name__ == "__main__":
+    parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
+    parser.add_argument(
+        "path",
+        type=str,
+        nargs=2,
+        help=("Path to the generated images or " "to .npz statistic files"),
+    )
+    parser.add_argument("--batch-size", type=int, default=50, help="Batch size to use")
+    parser.add_argument(
+        "--dims",
+        type=int,
+        default=2048,
+        choices=list(InceptionV3.BLOCK_INDEX_BY_DIM),
+        help=(
+            "Dimensionality of Inception features to use. "
+            "By default, uses pool3 features"
+        ),
+    )
+    parser.add_argument(
+        "-c",
+        "--gpu",
+        default="",
+        type=str,
+        help="GPU to use (leave blank for CPU only)",
+    )
+    parser.add_argument(
+        "-i", "--iter", default=10, type=int, help="How many iteration of computing FID"
+    )
+    parser.add_argument(
+        "-r",
+        "--result_name",
+        default="",
+        type=str,
+        help="Result name, e.g. human2clothes_results_cross-dataset_eval",
+    )
     args = parser.parse_args()
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 

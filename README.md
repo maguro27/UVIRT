@@ -49,7 +49,7 @@ mv __init__.py gdwct
 ```
 
 
-## Explanation of this prepository
+## Explanation of this repository
 - `configs`: Including the config file.
 - `datasets`: Dataset directory. It includes the train and test pair text files.
 - `fid`: For computing FID. The modified version scripts of [pytorch-fid](https://github.com/mseitzer/pytorch-fid)

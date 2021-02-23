@@ -25,6 +25,7 @@ def main():
         "-m",
         type=str,
         default="train",
+        choices=["train", "test"],
         help="implementation mode, i.e. train or test",
     )
     parser.add_argument(
@@ -81,7 +82,6 @@ def main():
         num_workers=config["NUM_WORKERS"],
     )
 
-    assert config["MODE"] in ["train", "test"]
     if config["MODE"] == "train":
         run.train()
     else:
@@ -117,11 +117,11 @@ def test(config, opts, run):
                 if torch.cuda.is_available()
                 else "cpu"
             )
-            for i, (x_A, x_B, im_name) in enumerate(tqdm(data_loader_test)):
+            for _, (x_A, x_B, im_name) in enumerate(tqdm(data_loader_test)):
                 x_A = x_A.to(device)
                 x_B = x_B.to(device)
 
-                x_AB, x_BA = run.update_G(x_A, x_B, isTrain=False)
+                _, x_BA = run.update_G(x_A, x_B, isTrain=False)
 
                 if opts.fid:
                     save_img(
