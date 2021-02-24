@@ -1,3 +1,14 @@
+diff --git a/__init__.py b/__init__.py
+new file mode 100644
+index 0000000..0d5dbe0
+--- /dev/null
++++ b/__init__.py
+@@ -0,0 +1,5 @@
++import os
++import sys
++
++
++sys.path.append(os.path.join(os.getcwd(), "gdwct"))
 diff --git a/run.py b/run.py
 index 303da14..4f30f4a 100644
 --- a/run.py
