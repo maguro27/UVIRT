@@ -4,48 +4,18 @@ This repository contains the official PyTorch implementation of the following pa
 >Hideki Tsunashima (AIST), Kosuke Arase (Mercari, Inc.), Antony Lam (Mercari, Inc.), Hirokatsu Kataoka (AIST) <br>
 >Sensors 2020
 
-## First doing
-1. Please use the `recursive` option so that cloning the git submodule when you clone this repository.
+## Preparation
+1. Clone this repository including submodules with the `recursive` option.
+
 ```
 git clone --recursive https://github.com/maguro27/UVIRT.git
 ```
-2. Change the line 17, 360 and 362 of `gdwct/run.py`.
-```
---- a/test_run.py
-+++ b/test_run.py
-@@ -14,15 +14,7 @@ from scipy.linalg import block_diag
 
- class Run(object):
-     def __init__(self, config):
--        self.data_loader = get_loader(
--            config["DATA_PATH"],
--            crop_size=config["CROP_SIZE"],
--            resize=config["RESIZE"],
--            batch_size=config["BATCH_SIZE"],
--            dataset=config["DATASET"],
--            mode=config["MODE"],
--            num_workers=config["NUM_WORKERS"],
--        )
-+        self.data_loader = 0
+2. Apply a patch to the submodule
 
-         self.config = config
-         self.device = torch.device(
-@@ -477,6 +469,6 @@ def main():
-         run.test()
-
-
--config = ges_Aonfig("configs/config.yaml")
-+config = ges_Aonfig("configs/mpv.yaml")
-
--main()
-\ No newline at end of file
-+# main()
-```
-
-3. Move `__init__.py` to `gdwct`.
 ```
 cd UVIRT
-mv __init__.py gdwct
+./bin/patch.sh
 ```
 
 
