@@ -1,0 +1,37 @@
+diff --git a/__init__.py b/__init__.py
+new file mode 100644
+index 0000000..0d5dbe0
+--- /dev/null
++++ b/__init__.py
+@@ -0,0 +1,5 @@
++import os
++import sys
++
++
++sys.path.append(os.path.join(os.getcwd(), "gdwct"))
+diff --git a/run.py b/run.py
+index 303da14..4f30f4a 100644
+--- a/run.py
++++ b/run.py
+@@ -14,10 +14,7 @@ from scipy.linalg import block_diag
+ 
+ class Run(object):
+     def __init__(self, config):
+-        self.data_loader = get_loader(config['DATA_PATH'],
+-                                    crop_size=config['CROP_SIZE'], resize=config['RESIZE'], 
+-                                    batch_size=config['BATCH_SIZE'], dataset=config['DATASET'], 
+-                                    mode=config['MODE'], num_workers=config['NUM_WORKERS'])
++        self.data_loader = 0
+ 
+         self.config = config
+         self.device = torch.device("cuda:%d" % (int(config['GPU1'])) if torch.cuda.is_available() else "cpu")
+@@ -357,6 +354,6 @@ def main():
+     else:
+         run.test()
+ 
+-config = ges_Aonfig('configs/config.yaml')
++config = ges_Aonfig('configs/mpv.yaml')
+ 
+-main()
+\ No newline at end of file
++#main()
