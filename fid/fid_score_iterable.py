@@ -285,7 +285,7 @@ if __name__ == "__main__":
     fid_accumulation = []
     path_tmp = args.path[1]
     for i in range(args.iter):
-        args.path[1] = path_tmp + "/fid_" + str(i) + "/" + args.result_name + "/"
+        args.path[1] = os.path.join(path_tmp, "fid_" + str(i), args.result_name)
         print(args.path[1])
         fid_value = calculate_fid_given_paths(
             args.path, args.batch_size, args.gpu != "", args.dims
